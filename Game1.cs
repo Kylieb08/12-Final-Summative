@@ -14,8 +14,10 @@ namespace _12_Final_Summative
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         Rectangle window, playerCollisionRect, playerDrawRect;
-
-        int rows, columns, frame, frames, directionRow, leftRow, rightRow, width, height;
+        int rows, columns, frame, frames, directionRow, leftRow, rightRow, 
+            jumpRow, attackRow, idleRow, width, height;
+        float speed, time, framespeed;
+        Vector2 playerLocation, playerDirection;
 
         public Game1()
         {
@@ -27,6 +29,12 @@ namespace _12_Final_Summative
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            window = new Rectangle(0, 0, 800, 500);
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.ApplyChanges();
+
+            //Processing spritesheet
 
             base.Initialize();
         }
