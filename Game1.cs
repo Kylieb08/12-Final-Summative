@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-//sprite sheet is 924 x 1022 pixels
+//sprite sheet is 864 x 1162 pixels
 
 namespace _12_Final_Summative
 {
@@ -14,8 +14,8 @@ namespace _12_Final_Summative
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         Rectangle window, playerCollisionRect, playerDrawRect;
-        int rows, columns, frame, frames, directionRow, leftRow, rightRow, 
-            jumpRow, attackRow, idleRow, width, height;
+        int rows, columns, frame, frames, directionRow, leftRunRow, rightRunRow, 
+            jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, framespeed;
         Vector2 playerLocation, playerDirection;
 
