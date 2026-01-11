@@ -64,6 +64,10 @@ namespace _12_Final_Summative
             UpdateRects();
 
             base.Initialize();
+
+            //Width and height
+            width = playerSpriteSheet.Width / columns;
+            height = playerSpriteSheet.Height / rows;
         }
 
         protected override void LoadContent()
