@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-//sprite sheet is 864 x 1162 pixels
+//sprite sheet is 864 x 1152 pixels
 
 namespace _12_Final_Summative
 {
@@ -14,7 +14,7 @@ namespace _12_Final_Summative
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         Rectangle window, playerCollisionRect, playerDrawRect;
-        int rows, columns, frame, frames, directionRow, leftRunRow, rightRunRow, 
+        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, framespeed;
         Vector2 playerLocation, playerDirection;
@@ -35,6 +35,25 @@ namespace _12_Final_Summative
             _graphics.ApplyChanges();
 
             //Processing spritesheet
+            rows = 8;
+            columns = 6;
+            attackLeftRow = 0;
+            attackRightRow = 1;
+            idleRightRow = 2;
+            idleLeftRow = 3;
+            runRightRow = 4;
+            runLeftRow = 5;
+            jumpRightRow = 6;
+            jumpLeftRow = 7;
+            directionRow = idleRightRow;
+
+            //player
+            playerLocation = new Vector2(20, 20);
+            playerCollisionRect = new Rectangle(20, 20, 103, 86);
+            playerDrawRect = new Rectangle(20, 20, 103, 86);
+            speed = 1.5f;
+
+            UpdateRects();
 
             base.Initialize();
         }
@@ -63,6 +82,12 @@ namespace _12_Final_Summative
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public void UpdateRects()
+        {
+            playerCollisionRect.Location = playerLocation.ToPoint();
+            playerDrawRect.Location = new Point(playerCollisionRect.X - 15, playerCollisionRect.Y - 15);
         }
     }
 }
