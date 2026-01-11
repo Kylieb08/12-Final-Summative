@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Win32.SafeHandles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -63,6 +64,8 @@ namespace _12_Final_Summative
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
+            playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
         }
 
         protected override void Update(GameTime gameTime)
