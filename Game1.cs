@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32.SafeHandles;
+﻿using System.Collections.Generic;
+using Microsoft.Win32.SafeHandles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,7 +18,7 @@ namespace _12_Final_Summative
         Rectangle window, playerCollisionRect, playerDrawRect;
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
-        float speed, time, framespeed;
+        float speed, time, frameSpeed;
         Vector2 playerLocation, playerDirection;
 
         public Game1()
@@ -48,7 +49,13 @@ namespace _12_Final_Summative
             jumpLeftRow = 7;
             directionRow = idleRightRow;
 
-            //player
+            //Time
+            time = 0.0f;
+            frameSpeed = 0.08f;
+            frames = 6;
+            frame = 0;
+
+            //Player
             playerLocation = new Vector2(20, 20);
             playerCollisionRect = new Rectangle(20, 20, 103, 86);
             playerDrawRect = new Rectangle(20, 20, 103, 86);
@@ -74,6 +81,26 @@ namespace _12_Final_Summative
                 Exit();
 
             // TODO: Add your update logic here
+            keyboardState = Keyboard.GetState();
+
+            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (time > frameSpeed && playerDirection != Vector2.Zero)
+            {
+                time = 0f;
+                frame = (frame + 1) % frames;
+            }
+
+            SetPlayerDirection();
+            playerLocation += playerDirection * speed;
+            UpdateRects();
+
+            //Collision detection with window
+            if (!window.Contains(playerCollisionRect))
+            {
+                playerLocation -= playerDirection * speed;
+                UpdateRects();
+            }
 
             base.Update(gameTime);
         }
@@ -84,6 +111,12 @@ namespace _12_Final_Summative
 
             // TODO: Add your drawing code here
 
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
+
+            _spriteBatch.End();
+
             base.Draw(gameTime);
         }
 
@@ -91,6 +124,29 @@ namespace _12_Final_Summative
         {
             playerCollisionRect.Location = playerLocation.ToPoint();
             playerDrawRect.Location = new Point(playerCollisionRect.X - 15, playerCollisionRect.Y - 15);
+        }
+
+        private void SetPlayerDirection()
+        {
+            playerDirection = Vector2.Zero;
+            if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+                playerDirection.X -= 1;
+
+            if (keyboardState.IsKeyDown(Keys.D) ||  keyboardState.IsKeyDown(Keys.Right))
+                playerDirection.X += 1;
+
+            if (playerDirection != Vector2.Zero)
+            {
+                playerDirection.Normalize();
+                if (playerDirection.X < 0)
+                    directionRow = runLeftRow;
+
+                else if (playerDirection.X > 0)
+                    directionRow = runRightRow;
+            }
+
+            else
+                frame = 0;
         }
     }
 }
