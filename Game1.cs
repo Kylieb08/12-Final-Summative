@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-//sprite sheet is 864 x 1152 pixels
+//sprite sheet is 850 x 1148 pixels
 
 namespace _12_Final_Summative
 {
@@ -139,7 +139,7 @@ namespace _12_Final_Summative
             if (screen == Screen.Game)
             {
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
+                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
             }
 
             _spriteBatch.End();
