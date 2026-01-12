@@ -31,6 +31,7 @@ namespace _12_Final_Summative
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, frameSpeed;
         Vector2 playerLocation, playerDirection;
+        List<Rectangle> barriers;
 
         public Game1()
         {
@@ -48,6 +49,8 @@ namespace _12_Final_Summative
             _graphics.ApplyChanges();
 
             screen = Screen.Game;
+
+            barriers = new List<Rectangle>();
 
             //Processing spritesheet
             rows = 8;
