@@ -29,9 +29,10 @@ namespace _12_Final_Summative
         Rectangle window, playerCollisionRect, playerDrawRect;
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
-        float speed, time, frameSpeed;
+        float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection;
-        List<Rectangle> barriers;
+        List<Rectangle> platforms;
+        bool onGround = false;
 
         public Game1()
         {
@@ -50,7 +51,8 @@ namespace _12_Final_Summative
 
             screen = Screen.Game;
 
-            barriers = new List<Rectangle>();
+            platforms = new List<Rectangle>();
+            platforms.Add(new Rectangle(0, 400, window.Width, 15));
 
             //Processing spritesheet
             rows = 8;
@@ -76,6 +78,8 @@ namespace _12_Final_Summative
             playerCollisionRect = new Rectangle(28, 226, 103, 86);
             playerDrawRect = new Rectangle(20, 200, 103, 86);
             speed = 1.5f;
+            gravity = 0.3f;
+            jumpSpeed = 8f;
 
             UpdateRects();
 
@@ -120,12 +124,20 @@ namespace _12_Final_Summative
                 playerLocation += playerDirection * speed;
                 UpdateRects();
 
-                //Collision detection with window
+                //Collision detection
                 if (!window.Contains(playerCollisionRect))
                 {
                     playerLocation -= playerDirection * speed;
                     UpdateRects();
                 }
+
+                //foreach (Rectangle platform in platforms)
+                //{
+                //    if (playerCollisionRect.Intersects(platform))
+                //    {
+                //        playerLocation.Y -= speed;
+                //    }
+                //}
             }
 
             base.Update(gameTime);
@@ -143,6 +155,9 @@ namespace _12_Final_Summative
             {
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
                 //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
+
+                foreach (Rectangle platform in platforms)
+                    _spriteBatch.Draw(rectangleTexture, platform, Color.Black);
             }
 
             _spriteBatch.End();
