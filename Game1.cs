@@ -8,11 +8,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace _12_Final_Summative
 {
+    public enum Screen
+    {
+        Title,
+        Info,
+        Game,
+        Win,
+        Lose
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Screen screen;
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
@@ -36,6 +46,8 @@ namespace _12_Final_Summative
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
+
+            screen = Screen.Game;
 
             //Processing spritesheet
             rows = 8;
@@ -91,23 +103,26 @@ namespace _12_Final_Summative
 
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
 
-            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (time > frameSpeed && playerDirection != Vector2.Zero)
+            if (screen == Screen.Game)
             {
-                time = 0f;
-                frame = (frame + 1) % frames;
-            }
+                time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            SetPlayerDirection();
-            playerLocation += playerDirection * speed;
-            UpdateRects();
+                if (time > frameSpeed && playerDirection != Vector2.Zero)
+                {
+                    time = 0f;
+                    frame = (frame + 1) % frames;
+                }
 
-            //Collision detection with window
-            if (!window.Contains(playerCollisionRect))
-            {
-                playerLocation -= playerDirection * speed;
+                SetPlayerDirection();
+                playerLocation += playerDirection * speed;
                 UpdateRects();
+
+                //Collision detection with window
+                if (!window.Contains(playerCollisionRect))
+                {
+                    playerLocation -= playerDirection * speed;
+                    UpdateRects();
+                }
             }
 
             base.Update(gameTime);
@@ -121,8 +136,11 @@ namespace _12_Final_Summative
 
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-            _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
+            if (screen == Screen.Game)
+            {
+                _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
+                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
+            }
 
             _spriteBatch.End();
 
