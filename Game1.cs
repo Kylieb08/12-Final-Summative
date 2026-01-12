@@ -75,7 +75,7 @@ namespace _12_Final_Summative
 
             //Player
             playerLocation = new Vector2(20, 200);
-            playerCollisionRect = new Rectangle(28, 226, 103, 86);
+            playerCollisionRect = new Rectangle(26, 218, 103, 86);
             playerDrawRect = new Rectangle(20, 200, 103, 86);
             speed = 1.5f;
             gravity = 0.3f;
@@ -154,7 +154,7 @@ namespace _12_Final_Summative
             if (screen == Screen.Game)
             {
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
+                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
                 foreach (Rectangle platform in platforms)
                     _spriteBatch.Draw(rectangleTexture, platform, Color.Black);
