@@ -149,8 +149,17 @@ namespace _12_Final_Summative
                     directionRow = runRightRow;
             }
 
+            //else if (playerDirection == Vector2.Zero)
+            //{
+            //    directionRow = idleRightRow;
+            //}
+
             else
+            {
                 frame = 0;
+                directionRow = idleRightRow;
+            }
+                
         }
     }
 }
