@@ -30,7 +30,7 @@ namespace _12_Final_Summative
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, frameSpeed, gravity, jumpSpeed;
-        Vector2 playerLocation, playerDirection;
+        Vector2 playerLocation, playerDirection, fallSpeed;
         List<Rectangle> platforms;
         bool onGround = false;
 
@@ -79,7 +79,8 @@ namespace _12_Final_Summative
             playerDrawRect = new Rectangle(20, 200, 103, 86);
             speed = 1.5f;
             gravity = 0.3f;
-            jumpSpeed = 8f;
+            jumpSpeed = 18f;
+            fallSpeed = Vector2.Zero;
 
             UpdateRects();
 
@@ -131,13 +132,41 @@ namespace _12_Final_Summative
                     UpdateRects();
                 }
 
-                //foreach (Rectangle platform in platforms)
-                //{
-                //    if (playerCollisionRect.Intersects(platform))
-                //    {
-                //        playerLocation.Y -= speed;
-                //    }
-                //}
+                if (!onGround)
+                {
+                    fallSpeed.Y += gravity;
+                    if (fallSpeed.Y < 0f && keyboardState.IsKeyDown(Keys.Space))
+                        fallSpeed.Y /= 1.5f;
+                }
+
+                else if (keyboardState.IsKeyDown(Keys.Space)&& onGround)
+                {
+                    fallSpeed.Y -= jumpSpeed;
+                    onGround = false;
+                }
+
+                playerLocation.Y += fallSpeed.Y;
+
+                foreach (Rectangle platform in platforms)
+                {
+                    if (playerCollisionRect.Intersects(platform))
+                    {
+                        if (fallSpeed.Y > 0f)
+                        {
+                            onGround = true;
+                            fallSpeed.Y = 0f;
+                            playerLocation.Y = platform.Y - playerCollisionRect.Height;
+                        }
+
+                        else
+                        {
+                            fallSpeed.Y = 0;
+                            playerLocation.Y = platform.Bottom;
+                        }
+                    }
+                }
+
+                UpdateRects();
             }
 
             base.Update(gameTime);
