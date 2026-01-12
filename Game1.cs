@@ -79,7 +79,7 @@ namespace _12_Final_Summative
             playerDrawRect = new Rectangle(20, 200, 103, 86);
             speed = 1.5f;
             gravity = 0.3f;
-            jumpSpeed = 18f;
+            jumpSpeed = 8f;
             fallSpeed = Vector2.Zero;
 
             UpdateRects();
@@ -135,7 +135,7 @@ namespace _12_Final_Summative
                 if (!onGround)
                 {
                     fallSpeed.Y += gravity;
-                    if (fallSpeed.Y < 0f && keyboardState.IsKeyDown(Keys.Space))
+                    if (fallSpeed.Y < 0f && keyboardState.IsKeyUp(Keys.Space))
                         fallSpeed.Y /= 1.5f;
                 }
 
