@@ -15,6 +15,7 @@ namespace _12_Final_Summative
 
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
+        MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect;
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
@@ -56,9 +57,9 @@ namespace _12_Final_Summative
             frame = 0;
 
             //Player
-            playerLocation = new Vector2(20, 20);
-            playerCollisionRect = new Rectangle(20, 20, 103, 86);
-            playerDrawRect = new Rectangle(20, 20, 103, 86);
+            playerLocation = new Vector2(20, 200);
+            playerCollisionRect = new Rectangle(28, 226, 103, 86);
+            playerDrawRect = new Rectangle(20, 200, 103, 86);
             speed = 1.5f;
 
             UpdateRects();
@@ -86,6 +87,9 @@ namespace _12_Final_Summative
 
             // TODO: Add your update logic here
             keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+
+            this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
 
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -118,6 +122,7 @@ namespace _12_Final_Summative
             _spriteBatch.Begin();
 
             _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
+            _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f);
 
             _spriteBatch.End();
 
@@ -127,7 +132,7 @@ namespace _12_Final_Summative
         public void UpdateRects()
         {
             playerCollisionRect.Location = playerLocation.ToPoint();
-            playerDrawRect.Location = new Point(playerCollisionRect.X - 15, playerCollisionRect.Y - 15);
+            playerDrawRect.Location = new Point(playerCollisionRect.X, playerCollisionRect.Y);
         }
 
         private void SetPlayerDirection()
@@ -148,11 +153,6 @@ namespace _12_Final_Summative
                 else if (playerDirection.X > 0)
                     directionRow = runRightRow;
             }
-
-            //else if (playerDirection == Vector2.Zero)
-            //{
-            //    directionRow = idleRightRow;
-            //}
 
             else
             {
