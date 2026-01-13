@@ -198,6 +198,9 @@ namespace _12_Final_Summative
         {
             playerCollisionRect.Location = playerLocation.ToPoint();
             playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 17);
+            if (playerDirection.X > 0 && keyboardState.IsKeyDown(Keys.LeftControl))
+                playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 5);
+            
         }
 
         private void SetPlayerDirection()
@@ -213,10 +216,10 @@ namespace _12_Final_Summative
             if (playerDirection != Vector2.Zero)
             {
                 playerDirection.Normalize();
-                if (playerDirection.X > 0 && onGround && keyboardState.IsKeyDown(Keys.LeftControl))
+                if (playerDirection.X > 0 && keyboardState.IsKeyDown(Keys.LeftControl))
                     directionRow = attackRightRow;
 
-                else if (playerDirection.X < 0 && onGround && keyboardState.IsKeyDown(Keys.LeftControl))
+                else if (playerDirection.X < 0 && keyboardState.IsKeyDown(Keys.LeftControl))
                     directionRow = attackLeftRow;
 
                 //else if (playerDirection.X < 0 && onGround && keyboardState.IsKeyDown(Keys.Space))
@@ -237,7 +240,6 @@ namespace _12_Final_Summative
                 frame = 0;
                 directionRow = idleRightRow;
             }
-                
         }
     }
 }
