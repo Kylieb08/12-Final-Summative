@@ -27,8 +27,8 @@ namespace _12_Final_Summative
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect;
-        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
-            jumpRightRow,jumpLeftRow, attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
+        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
+            attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
         List<Rectangle> platforms;
@@ -213,17 +213,24 @@ namespace _12_Final_Summative
             if (playerDirection != Vector2.Zero)
             {
                 playerDirection.Normalize();
-                if (playerDirection.X < 0 && onGround)
+                if (playerDirection.X > 0 && onGround && keyboardState.IsKeyDown(Keys.LeftControl))
+                    directionRow = attackRightRow;
+
+                else if (playerDirection.X < 0 && onGround && keyboardState.IsKeyDown(Keys.LeftControl))
+                    directionRow = attackLeftRow;
+
+                //else if (playerDirection.X < 0 && onGround && keyboardState.IsKeyDown(Keys.Space))
+                //    directionRow = jumpLeftRow;
+
+                //else if (playerDirection.X > 0 && onGround && keyboardState.IsKeyDown(Keys.Space))
+                //    directionRow = jumpRightRow;
+
+                else if (playerDirection.X < 0 && onGround)
                     directionRow = runLeftRow;
 
-                else if (playerDirection.X > 0)
+                else if (playerDirection.X > 0 && onGround)
                     directionRow = runRightRow;
-
-                //else if (keyboardState.IsKeyDown(Keys.Space) && playerDirection.X > 0 && !onGround)
-                //    directionRow = jumpRightRow;
             }
-
-
 
             else
             {
