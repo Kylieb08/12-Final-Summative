@@ -203,6 +203,7 @@ namespace _12_Final_Summative
         private void SetPlayerDirection()
         {
             playerDirection = Vector2.Zero;
+
             if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
                 playerDirection.X -= 1;
 
@@ -212,12 +213,17 @@ namespace _12_Final_Summative
             if (playerDirection != Vector2.Zero)
             {
                 playerDirection.Normalize();
-                if (playerDirection.X < 0)
+                if (playerDirection.X < 0 && onGround)
                     directionRow = runLeftRow;
 
                 else if (playerDirection.X > 0)
                     directionRow = runRightRow;
+
+                //else if (keyboardState.IsKeyDown(Keys.Space) && playerDirection.X > 0 && !onGround)
+                //    directionRow = jumpRightRow;
             }
+
+
 
             else
             {
