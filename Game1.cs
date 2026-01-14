@@ -53,6 +53,7 @@ namespace _12_Final_Summative
 
             platforms = new List<Rectangle>();
             platforms.Add(new Rectangle(0, 400, window.Width, 15));
+            platforms.Add(new Rectangle(164, 345, 50, 15));
 
             //Processing spritesheet
             rows = 8;
@@ -132,6 +133,15 @@ namespace _12_Final_Summative
                     UpdateRects();
                 }
 
+                foreach (Rectangle platform in platforms)
+                {
+                    if (playerCollisionRect.Intersects(platform))
+                    {
+                        playerLocation -= playerDirection * speed;
+                        UpdateRects();
+                    }
+                }
+
                 if (!onGround)
                 {
                     fallSpeed.Y += gravity;
@@ -139,13 +149,17 @@ namespace _12_Final_Summative
                         fallSpeed.Y /= 1.5f;
                 }
 
-                else if (keyboardState.IsKeyDown(Keys.Space)&& onGround)
+                else if (keyboardState.IsKeyDown(Keys.Space) && onGround)
                 {
                     fallSpeed.Y -= jumpSpeed;
                     onGround = false;
                 }
 
+                else
+                    fallSpeed.Y += gravity;
+
                 playerLocation.Y += fallSpeed.Y;
+                UpdateRects();
 
                 foreach (Rectangle platform in platforms)
                 {
@@ -159,14 +173,11 @@ namespace _12_Final_Summative
                         }
 
                         else
-                        {
                             fallSpeed.Y = 0;
-                            playerLocation.Y = platform.Bottom;
-                        }
+
+                        UpdateRects();
                     }
                 }
-
-                UpdateRects();
             }
 
             base.Update(gameTime);
@@ -198,9 +209,13 @@ namespace _12_Final_Summative
         {
             playerCollisionRect.Location = playerLocation.ToPoint();
             playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 17);
+
             if (playerDirection.X > 0 && keyboardState.IsKeyDown(Keys.LeftControl))
                 playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 5);
-            
+
+            if (playerDirection.X < 0 && keyboardState.IsKeyDown(Keys.LeftControl))
+                playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 5);
+
         }
 
         private void SetPlayerDirection()
