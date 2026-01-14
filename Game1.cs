@@ -54,6 +54,8 @@ namespace _12_Final_Summative
             platforms = new List<Rectangle>();
             platforms.Add(new Rectangle(0, 400, window.Width, 15));
             platforms.Add(new Rectangle(164, 345, 50, 15));
+            platforms.Add(new Rectangle(29, 290, 50, 15));
+            platforms.Add(new Rectangle(111, 163, 50, 15));
 
             //Processing spritesheet
             rows = 8;
@@ -75,9 +77,9 @@ namespace _12_Final_Summative
             frame = 0;
 
             //Player
-            playerLocation = new Vector2(20, 200);
-            playerCollisionRect = new Rectangle(26, 218, 70, 60);
-            playerDrawRect = new Rectangle(20, 200, 103, 86);
+            playerLocation = new Vector2(20, 340);
+            playerCollisionRect = new Rectangle(26, 340, 70, 60);
+            playerDrawRect = new Rectangle(20, 340, 103, 86);
             speed = 1.5f;
             gravity = 0.3f;
             jumpSpeed = 8f;
