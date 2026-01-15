@@ -31,7 +31,7 @@ namespace _12_Final_Summative
             attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
-        List<Rectangle> platforms;
+        //List<Rectangle> platforms;
         bool onGround = false;
 
         public Game1()
@@ -51,11 +51,11 @@ namespace _12_Final_Summative
 
             screen = Screen.Game;
 
-            platforms = new List<Rectangle>();
-            platforms.Add(new Rectangle(0, 400, window.Width, 15));
-            platforms.Add(new Rectangle(164, 345, 50, 15));
-            platforms.Add(new Rectangle(29, 290, 50, 15));
-            platforms.Add(new Rectangle(111, 163, 50, 15));
+            //platforms = new List<Rectangle>();
+            //platforms.Add(new Rectangle(0, 400, window.Width, 15));
+            //platforms.Add(new Rectangle(164, 345, 50, 15));
+            //platforms.Add(new Rectangle(29, 290, 50, 15));
+            //platforms.Add(new Rectangle(111, 163, 50, 15));
 
             //Processing spritesheet
             rows = 8;
@@ -135,14 +135,14 @@ namespace _12_Final_Summative
                     UpdateRects();
                 }
 
-                foreach (Rectangle platform in platforms)
-                {
-                    if (playerCollisionRect.Intersects(platform))
-                    {
-                        playerLocation -= playerDirection * speed;
-                        UpdateRects();
-                    }
-                }
+                //foreach (Rectangle platform in platforms)
+                //{
+                //    if (playerCollisionRect.Intersects(platform))
+                //    {
+                //        playerLocation -= playerDirection * speed;
+                //        UpdateRects();
+                //    }
+                //}
 
                 if (!onGround)
                 {
@@ -163,24 +163,24 @@ namespace _12_Final_Summative
                 playerLocation.Y += fallSpeed.Y;
                 UpdateRects();
 
-                foreach (Rectangle platform in platforms)
-                {
-                    if (playerCollisionRect.Intersects(platform))
-                    {
-                        if (fallSpeed.Y > 0f)
-                        {
-                            onGround = true;
-                            fallSpeed.Y = 0f;
-                            playerLocation.Y = platform.Y - playerCollisionRect.Height;
-                        }
+            //    foreach (Rectangle platform in platforms)
+            //    {
+            //        if (playerCollisionRect.Intersects(platform))
+            //        {
+            //            if (fallSpeed.Y > 0f)
+            //            {
+            //                onGround = true;
+            //                fallSpeed.Y = 0f;
+            //                playerLocation.Y = platform.Y - playerCollisionRect.Height;
+            //            }
 
-                        else
-                            fallSpeed.Y = 0;
+            //            else
+            //                fallSpeed.Y = 0;
 
-                        UpdateRects();
-                    }
-                }
-            }
+            //            UpdateRects();
+            //        }
+            //    }
+            //}
 
             base.Update(gameTime);
         }
