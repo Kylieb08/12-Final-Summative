@@ -154,6 +154,12 @@ namespace _12_Final_Summative
                         playerLocation -= playerDirection * speed;
                         UpdateRects();
                     }
+
+                    //if ()
+                    //{
+                    //    playerLocation -= playerDirection * speed;
+                    //    UpdateRects();
+                    //}
                 }
 
                 if (!onGround)

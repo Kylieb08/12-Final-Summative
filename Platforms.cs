@@ -37,6 +37,11 @@ namespace _12_Final_Summative
             get { return _location.Y; }
         }
 
+        public int Bottom
+        {
+            get { return _location.Bottom; }
+        }
+
         public bool Intersects(Rectangle platform)
         {
            return _location.Intersects(platform);
