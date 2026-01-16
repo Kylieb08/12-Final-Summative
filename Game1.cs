@@ -185,7 +185,7 @@ namespace _12_Final_Summative
                 {
                     if (platform.Intersects(playerCollisionRect))
                     {
-                        if (fallSpeed.Y > 0f)
+                        if (fallSpeed.Y >= 0f)
                         {
                             onGround = true;
                             fallSpeed.Y = 0f;
@@ -193,7 +193,11 @@ namespace _12_Final_Summative
                         }
 
                         else
+                        {
                             fallSpeed.Y = 0;
+                            playerLocation.Y -= fallSpeed.Y;
+
+                        }
 
                         UpdateRects();
                     }
