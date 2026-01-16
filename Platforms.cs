@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace _12_Final_Summative
 {
@@ -27,9 +32,14 @@ namespace _12_Final_Summative
             _colour = colour;
         }
 
+        public int RectY
+        {
+            get { return _location.Y; }
+        }
+
         public bool Intersects(Rectangle platform)
         {
-           return _location.IntersectsWith(platform);
+           return _location.Intersects(platform);
         }
 
         public void Draw (SpriteBatch spriteBatch)

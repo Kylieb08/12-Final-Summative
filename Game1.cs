@@ -26,12 +26,14 @@ namespace _12_Final_Summative
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
-        Rectangle window, playerCollisionRect, playerDrawRect;
+        Rectangle window, playerCollisionRect, playerDrawRect, platformRect;
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
             attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
-        //List<Rectangle> platforms;
+        Platforms platform;
+        Color platformColor;
+        List<Platforms> platforms;
         bool onGround = false;
 
         public Game1()
@@ -51,11 +53,9 @@ namespace _12_Final_Summative
 
             screen = Screen.Game;
 
-            //platforms = new List<Rectangle>();
-            //platforms.Add(new Rectangle(0, 400, window.Width, 15));
-            //platforms.Add(new Rectangle(164, 345, 50, 15));
-            //platforms.Add(new Rectangle(29, 290, 50, 15));
-            //platforms.Add(new Rectangle(111, 163, 50, 15));
+            platformRect = new Rectangle(0, 400, 800, 15);
+            platformColor = Color.Black;
+            platforms = new List<Platforms>();
 
             //Processing spritesheet
             rows = 8;
@@ -92,6 +92,10 @@ namespace _12_Final_Summative
             //Width and height
             width = playerSpriteSheet.Width / columns;
             height = playerSpriteSheet.Height / rows;
+
+            GeneratePlatforms();
+
+            platform = new Platforms(rectangleTexture, platformRect, platformColor);
         }
 
         protected override void LoadContent()
@@ -101,6 +105,14 @@ namespace _12_Final_Summative
             // TODO: use this.Content to load your game content here
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
+        }
+
+        public void GeneratePlatforms()
+        {
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(0, 400, window.Width, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(164, 345, 50, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(29, 290, 50, 15)), platformColor));
+            //platforms.Add(new Platforms(rectangleTexture, (new Rectangle(111, 163, 50, 15)), platformColor));
         }
 
         protected override void Update(GameTime gameTime)
@@ -135,14 +147,14 @@ namespace _12_Final_Summative
                     UpdateRects();
                 }
 
-                //foreach (Rectangle platform in platforms)
-                //{
-                //    if (playerCollisionRect.Intersects(platform))
-                //    {
-                //        playerLocation -= playerDirection * speed;
-                //        UpdateRects();
-                //    }
-                //}
+                for (int i = 0; i < platforms.Count; i++)
+                {
+                    if (platforms[i].Intersects(playerCollisionRect))
+                    {
+                        playerLocation -= playerDirection * speed;
+                        UpdateRects();
+                    }
+                }
 
                 if (!onGround)
                 {
@@ -158,31 +170,32 @@ namespace _12_Final_Summative
                 }
 
                 else
-                    fallSpeed.Y += gravity;
+                   fallSpeed.Y += gravity;
 
                 playerLocation.Y += fallSpeed.Y;
                 UpdateRects();
 
-            //    foreach (Rectangle platform in platforms)
-            //    {
-            //        if (playerCollisionRect.Intersects(platform))
-            //        {
-            //            if (fallSpeed.Y > 0f)
-            //            {
-            //                onGround = true;
-            //                fallSpeed.Y = 0f;
-            //                playerLocation.Y = platform.Y - playerCollisionRect.Height;
-            //            }
+                foreach (Platforms platform in platforms)
+                {
+                    if (platform.Intersects(playerCollisionRect))
+                    {
+                        if (fallSpeed.Y > 0f)
+                        {
+                            onGround = true;
+                            fallSpeed.Y = 0f;
+                            playerLocation.Y = platform.RectY - playerCollisionRect.Height;
+                        }
 
-            //            else
-            //                fallSpeed.Y = 0;
+                        else
+                            fallSpeed.Y = 0;
 
-            //            UpdateRects();
-            //        }
-            //    }
-            //}
+                        UpdateRects();
+                    }
+                }
+            }
 
             base.Update(gameTime);
+            
         }
 
         protected override void Draw(GameTime gameTime)
@@ -198,8 +211,8 @@ namespace _12_Final_Summative
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
                 _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
-                foreach (Rectangle platform in platforms)
-                    _spriteBatch.Draw(rectangleTexture, platform, Color.Black);
+                foreach (Platforms platform in platforms)
+                    platform.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
