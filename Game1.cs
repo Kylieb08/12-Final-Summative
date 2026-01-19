@@ -26,17 +26,19 @@ namespace _12_Final_Summative
         Texture2D playerSpriteSheet, rectangleTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
-        Rectangle window, playerCollisionRect, playerDrawRect, platformRect;
+        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect;
 
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
             attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
 
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
-        Platforms platform;
         Color platformColor;
         List<Platforms> platforms;
         bool onGround = false;
+
+        Platforms platform;
+        Enemy enemy;
 
         public Game1()
         {
@@ -87,6 +89,9 @@ namespace _12_Final_Summative
             jumpSpeed = 8f;
             fallSpeed = Vector2.Zero;
 
+            //Enemy
+            enemyRect = new Rectangle(710, 340, 70, 60);
+
             UpdateRects();
 
             base.Initialize();
@@ -98,6 +103,7 @@ namespace _12_Final_Summative
             GeneratePlatforms();
 
             platform = new Platforms(rectangleTexture, platformRect, platformColor);
+            enemy = new Enemy(rectangleTexture, enemyRect);
         }
 
         protected override void LoadContent()
@@ -218,6 +224,8 @@ namespace _12_Final_Summative
 
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);
+
+                enemy.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
