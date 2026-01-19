@@ -27,8 +27,10 @@ namespace _12_Final_Summative
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect;
+
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
             attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
+
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
         Platforms platform;
@@ -154,12 +156,6 @@ namespace _12_Final_Summative
                         playerLocation -= playerDirection * speed;
                         UpdateRects();
                     }
-
-                    //if ()
-                    //{
-                    //    playerLocation -= playerDirection * speed;
-                    //    UpdateRects();
-                    //}
                 }
 
                 if (!onGround)
@@ -194,9 +190,8 @@ namespace _12_Final_Summative
 
                         else
                         {
-                            fallSpeed.Y = 0;
                             playerLocation.Y -= fallSpeed.Y;
-
+                            fallSpeed.Y = 0;
                         }
 
                         UpdateRects();
