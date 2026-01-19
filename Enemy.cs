@@ -26,6 +26,18 @@ namespace _12_Final_Summative
             _texture = texture;
         }
 
+        public void Update(Rectangle window)
+        {
+            _speed.X -= 1;
+
+            _location.Offset(_speed);            
+        }
+
+        public bool Intersects(Rectangle enemy)
+        {
+            return _location.Intersects(enemy);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _location, null, Color.Red, 0f, 

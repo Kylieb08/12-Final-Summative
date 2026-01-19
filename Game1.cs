@@ -136,6 +136,8 @@ namespace _12_Final_Summative
 
             if (screen == Screen.Game)
             {
+                enemy.Update(window);
+
                 time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (time > frameSpeed && playerDirection != Vector2.Zero)
