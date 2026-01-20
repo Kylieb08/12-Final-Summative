@@ -122,7 +122,10 @@ namespace _12_Final_Summative
             platforms.Add(new Platforms(rectangleTexture, (new Rectangle(0, 400, window.Width, 15)), platformColor));
             platforms.Add(new Platforms(rectangleTexture, (new Rectangle(164, 345, 50, 15)), platformColor));
             platforms.Add(new Platforms(rectangleTexture, (new Rectangle(29, 290, 50, 15)), platformColor));
-            //platforms.Add(new Platforms(rectangleTexture, (new Rectangle(111, 163, 50, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(111, 203, 50, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(230, 170, 50, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(395, 273, 50, 15)), platformColor));
+            platforms.Add(new Platforms(rectangleTexture, (new Rectangle(530, 220, 250, 15)), platformColor));
         }
 
         protected override void Update(GameTime gameTime)
