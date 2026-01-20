@@ -21,16 +21,16 @@ namespace _12_Final_Summative
 
         public Enemy(Texture2D texture, Rectangle location)
         {
-            _speed = Vector2.Zero;
+            _speed = Vector2.One;
             _location = location;
             _texture = texture;
         }
 
         public void Update(Rectangle window)
         {
-            _speed.X -= 1;
-
-            _location.Offset(_speed);            
+            _location.X -= (int)_speed.X;
+            if (_location.Left < 550 || _location.Right > 780)
+                _speed.X *= -1;
         }
 
         public bool Intersects(Rectangle enemy)
