@@ -245,7 +245,8 @@ namespace _12_Final_Summative
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);
 
-                enemy.Draw(_spriteBatch);
+                if (!enemyDead)
+                    enemy.Draw(_spriteBatch);
             }
 
             else if (screen == Screen.Lose)
