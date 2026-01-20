@@ -23,7 +23,7 @@ namespace _12_Final_Summative
         private SpriteBatch _spriteBatch;
 
         Screen screen;
-        Texture2D playerSpriteSheet, rectangleTexture;
+        Texture2D playerSpriteSheet, rectangleTexture, loseTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect;
@@ -35,7 +35,7 @@ namespace _12_Final_Summative
         Vector2 playerLocation, playerDirection, fallSpeed;
         Color platformColor;
         List<Platforms> platforms;
-        bool onGround = false;
+        bool onGround = false, enemyDead = false;
 
         Platforms platform;
         Enemy enemy;
@@ -113,6 +113,8 @@ namespace _12_Final_Summative
             // TODO: use this.Content to load your game content here
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
+
+            loseTexture = Content.Load<Texture2D>("Images/you_lose");
         }
 
         public void GeneratePlatforms()
@@ -151,12 +153,15 @@ namespace _12_Final_Summative
                 UpdateRects();
 
                 //Collision detection
+
+                //Window
                 if (!window.Contains(playerCollisionRect))
                 {
                     playerLocation -= playerDirection * speed;
                     UpdateRects();
                 }
 
+                //Side of platforms
                 for (int i = 0; i < platforms.Count; i++)
                 {
                     if (platforms[i].Intersects(playerCollisionRect))
@@ -166,6 +171,7 @@ namespace _12_Final_Summative
                     }
                 }
 
+                //Gravity
                 if (!onGround)
                 {
                     fallSpeed.Y += gravity;
@@ -185,6 +191,7 @@ namespace _12_Final_Summative
                 playerLocation.Y += fallSpeed.Y;
                 UpdateRects();
 
+                //Top and bottom of platforms
                 foreach (Platforms platform in platforms)
                 {
                     if (platform.Intersects(playerCollisionRect))
@@ -203,6 +210,17 @@ namespace _12_Final_Summative
                         }
 
                         UpdateRects();
+                    }
+
+                    //Enemy
+                    if (enemy.Intersects(playerCollisionRect) && keyboardState.IsKeyDown(Keys.LeftControl))
+                    {
+                        enemyDead = true;
+                    }
+
+                    else if (enemy.Intersects(playerCollisionRect) && !keyboardState.IsKeyDown(Keys.LeftControl) && !enemyDead)
+                    {
+                        screen = Screen.Lose;
                     }
                 }
             }
@@ -230,7 +248,12 @@ namespace _12_Final_Summative
                 enemy.Draw(_spriteBatch);
             }
 
-            _spriteBatch.End();
+            else if (screen == Screen.Lose)
+            {
+                _spriteBatch.Draw(loseTexture, window, Color.White);
+            }
+
+                _spriteBatch.End();
 
             base.Draw(gameTime);
         }
