@@ -28,7 +28,7 @@ namespace _12_Final_Summative
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
 
-        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
+        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
             attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
 
         float speed, time, frameSpeed, gravity, jumpSpeed;
@@ -71,8 +71,8 @@ namespace _12_Final_Summative
             idleLeftRow = 3;
             runRightRow = 4;
             runLeftRow = 5;
-            jumpRightRow = 6;
-            jumpLeftRow = 7;
+            //jumpRightRow = 6;
+            //jumpLeftRow = 7;
             directionRow = idleRightRow;
 
             //Time
