@@ -23,7 +23,7 @@ namespace _12_Final_Summative
         private SpriteBatch _spriteBatch;
 
         Screen screen;
-        Texture2D playerSpriteSheet, rectangleTexture, loseTexture;
+        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, bgTexture, exitTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
@@ -115,7 +115,10 @@ namespace _12_Final_Summative
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
 
-            loseTexture = Content.Load<Texture2D>("Images/you_lose");
+            loseTexture = Content.Load<Texture2D>("Images/burning_forest");
+            winTexture = Content.Load<Texture2D>("Images/win_forest");
+            bgTexture = Content.Load<Texture2D>("Images/forest");
+            exitTexture = Content.Load<Texture2D>("Images/door");
         }
 
         public void GeneratePlatforms()
@@ -235,6 +238,13 @@ namespace _12_Final_Summative
                 }
             }
 
+            else if (screen == Screen.Win)
+            {
+                frame = 0;
+                directionRow = idleRightRow;
+                playerDrawRect = new Rectangle(330, 340, 70, 60);
+            }
+
             base.Update(gameTime);
             
         }
@@ -249,10 +259,11 @@ namespace _12_Final_Summative
 
             if (screen == Screen.Game)
             {
-                _spriteBatch.Draw(rectangleTexture, exitRect, Color.Green);
+                _spriteBatch.Draw(bgTexture, window, Color.White);
+                _spriteBatch.Draw(exitTexture, exitRect, Color.White);
 
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
+                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);
@@ -268,7 +279,9 @@ namespace _12_Final_Summative
 
             else if (screen == Screen.Win)
             {
-                _spriteBatch.Draw(rectangleTexture, window, Color.Green);
+                _spriteBatch.Draw(winTexture, window, Color.White);
+                _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
+                //_spriteBatch.Draw(playerSpriteSheet, new Rectangle (330, 340, 70, 60), Color.White);
             }
 
                 _spriteBatch.End();
