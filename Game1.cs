@@ -23,13 +23,14 @@ namespace _12_Final_Summative
         private SpriteBatch _spriteBatch;
 
         Screen screen;
-        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, bgTexture, exitTexture;
+        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, bgTexture, exitTexture, coinTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
+        List<Rectangle> coins;
 
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
-            attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
+            attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height, coinsCollected;
 
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
@@ -39,6 +40,7 @@ namespace _12_Final_Summative
 
         Platforms platform;
         Enemy enemy;
+        SpriteFont coinFont;
 
         public Game1()
         {
@@ -89,9 +91,16 @@ namespace _12_Final_Summative
             gravity = 0.3f;
             jumpSpeed = 8f;
             fallSpeed = Vector2.Zero;
+            coinsCollected = 0;
 
             //Enemy
             enemyRect = new Rectangle(710, 160, 70, 60);
+
+            //Coins
+            coins = new List<Rectangle>();
+            coins.Add(new Rectangle(20, 435, 25, 25));
+            coins.Add(new Rectangle(265, 350, 25, 25));
+            coins.Add(new Rectangle(240, 120, 25, 25));
 
             UpdateRects();
 
@@ -114,11 +123,14 @@ namespace _12_Final_Summative
             // TODO: use this.Content to load your game content here
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
+            coinTexture = Content.Load<Texture2D>("Images/coin");
 
             loseTexture = Content.Load<Texture2D>("Images/burning_forest");
             winTexture = Content.Load<Texture2D>("Images/win_forest");
             bgTexture = Content.Load<Texture2D>("Images/forest");
             exitTexture = Content.Load<Texture2D>("Images/door");
+
+            coinFont = Content.Load<SpriteFont>("Fonts/coinFont");
         }
 
         public void GeneratePlatforms()
@@ -235,6 +247,17 @@ namespace _12_Final_Summative
                     {
                         screen = Screen.Win;
                     }
+
+                    //Coins
+                    for (int i = 0; i < coins.Count; i++)
+                    {
+                        if (playerCollisionRect.Intersects(coins[i]))
+                        {
+                            coins.RemoveAt(i);
+                            i--;
+                            coinsCollected += 1;
+                        }
+                    }
                 }
             }
 
@@ -270,6 +293,11 @@ namespace _12_Final_Summative
 
                 if (!enemyDead)
                     enemy.Draw(_spriteBatch);
+
+                foreach (Rectangle coin in coins)
+                    _spriteBatch.Draw(coinTexture, coin, Color.White);
+
+                _spriteBatch.DrawString(coinFont, $"= {coinsCollected}", new Vector2(55, 435), Color.White);
             }
 
             else if (screen == Screen.Lose)

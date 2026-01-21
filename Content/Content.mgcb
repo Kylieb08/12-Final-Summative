@@ -13,15 +13,15 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Fonts/futura.ttf
-/copy:Fonts/futura.ttf
-
-#begin Fonts/titleFont.spritefont
+#begin Fonts/coinFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/titleFont.spritefont
+/build:Fonts/coinFont.spritefont
+
+#begin Fonts/futura.ttf
+/copy:Fonts/futura.ttf
 
 #begin Images/burning_forest.png
 /importer:TextureImporter
@@ -34,6 +34,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/burning_forest.png
+
+#begin Images/coin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/coin.png
 
 #begin Images/door.png
 /importer:TextureImporter
@@ -58,18 +70,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/evil_sprite_sheet.png
-
-#begin Images/forest.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/forest.jpg
 
 #begin Images/forest.jpg
 /importer:TextureImporter
