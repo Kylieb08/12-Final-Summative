@@ -60,7 +60,7 @@ namespace _12_Final_Summative
 
             screen = Screen.Game;
 
-            exitRect = new Rectangle(710, 160, 70, 60);
+            exitRect = new Rectangle(710, 160, 60, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
             platforms = new List<Platforms>();
@@ -86,7 +86,7 @@ namespace _12_Final_Summative
 
             //Player
             playerLocation = new Vector2(20, 340);
-            playerCollisionRect = new Rectangle(26, 340, 70, 60);
+            playerCollisionRect = new Rectangle(26, 340, 60, 60);
             playerDrawRect = new Rectangle(20, 340, 103, 86);
             speed = 1.5f;
             gravity = 0.3f;
@@ -95,7 +95,7 @@ namespace _12_Final_Summative
             coinsCollected = 0;
 
             //Enemy
-            enemyRect = new Rectangle(710, 160, 70, 60);
+            enemyRect = new Rectangle(720, 160, 60, 60);
 
             //Coins
             coins = new List<Rectangle>();
@@ -288,7 +288,7 @@ namespace _12_Final_Summative
                 _spriteBatch.Draw(exitTexture, exitRect, Color.White);
 
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
+                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);
@@ -311,7 +311,6 @@ namespace _12_Final_Summative
             {
                 _spriteBatch.Draw(winTexture, window, Color.White);
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                //_spriteBatch.Draw(playerSpriteSheet, new Rectangle (330, 340, 70, 60), Color.White);
             }
 
                 _spriteBatch.End();

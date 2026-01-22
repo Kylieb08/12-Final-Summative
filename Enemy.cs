@@ -51,9 +51,6 @@ namespace _12_Final_Summative
 
         public void Update(Rectangle window, GameTime gameTime)
         {
-            //_collisionRect.X -= (int)_speed.X;
-            //if (_collisionRect.Left < 550 || _collisionRect.Right > 780)
-            //    _speed.X *= -1;
             _time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (_time > _frameSpeed && _enemyDirection != Vector2.Zero)
