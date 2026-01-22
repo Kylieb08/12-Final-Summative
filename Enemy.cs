@@ -42,6 +42,7 @@ namespace _12_Final_Summative
             //Enemy
             _enemyLocation = new Vector2(710, 160);
             _drawRect = new Rectangle(704, 160, 103, 86);
+            _spriteSpeed = 1.5f;
         }
 
         public void Update(Rectangle window, GameTime gameTime)
@@ -56,16 +57,34 @@ namespace _12_Final_Summative
                 _time = 0f;
                 _frame = (_frame + 1) % _frames;
             }
+
+            SetEnemyDirection();
+            _enemyLocation += _enemyDirection * _spriteSpeed;
         }
 
         private void SetEnemyDirection()
         {
             _enemyDirection = Vector2.Zero;
-            if (_enemyLocation.X > 550 && _enemyLocation.X < 780)
-                _enemyDirection.X -= 1;
+            _enemyDirection.X += 1;
+            if (_enemyDirection.X < 550 || _enemyDirection.X > 780)
+                _enemyDirection *= -1;
 
-            //if (_enemyLocation.X > 550 && _enemyLocation.X < 780)
-            //    _enemyDirection.X += 1;
+
+           if (_enemyDirection != Vector2.Zero)
+           {
+                _enemyDirection.Normalize();
+                if (_enemyDirection.X < 0)
+                    _directionRow = _runLeftRow;
+
+                else if (_enemyDirection.X > 0)
+                    _directionRow = _runRightRow;
+           }
+
+            else
+            {
+                _frame = 0;
+                _directionRow = _runLeftRow;
+            }
         }
 
         public bool Intersects(Rectangle enemy)
