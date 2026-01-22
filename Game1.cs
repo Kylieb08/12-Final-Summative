@@ -23,13 +23,14 @@ namespace _12_Final_Summative
         private SpriteBatch _spriteBatch;
 
         Screen screen;
-        Texture2D playerSpriteSheet, rectangleTexture, loseTexture;
+        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, bgTexture, exitTexture, coinTexture;
         KeyboardState keyboardState;
         MouseState mouseState;
-        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect;
+        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
+        List<Rectangle> coins;
 
-        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, jumpRightRow,jumpLeftRow, 
-            attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height;
+        int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
+            attackLeftRow, attackRightRow, idleRightRow, idleLeftRow, width, height, coinsCollected;
 
         float speed, time, frameSpeed, gravity, jumpSpeed;
         Vector2 playerLocation, playerDirection, fallSpeed;
@@ -39,6 +40,7 @@ namespace _12_Final_Summative
 
         Platforms platform;
         Enemy enemy;
+        SpriteFont coinFont;
 
         public Game1()
         {
@@ -57,6 +59,7 @@ namespace _12_Final_Summative
 
             screen = Screen.Game;
 
+            exitRect = new Rectangle(710, 160, 70, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
             platforms = new List<Platforms>();
@@ -70,8 +73,8 @@ namespace _12_Final_Summative
             idleLeftRow = 3;
             runRightRow = 4;
             runLeftRow = 5;
-            jumpRightRow = 6;
-            jumpLeftRow = 7;
+            //jumpRightRow = 6;
+            //jumpLeftRow = 7;
             directionRow = idleRightRow;
 
             //Time
@@ -88,9 +91,16 @@ namespace _12_Final_Summative
             gravity = 0.3f;
             jumpSpeed = 8f;
             fallSpeed = Vector2.Zero;
+            coinsCollected = 0;
 
             //Enemy
-            enemyRect = new Rectangle(710, 340, 70, 60);
+            enemyRect = new Rectangle(710, 160, 70, 60);
+
+            //Coins
+            coins = new List<Rectangle>();
+            coins.Add(new Rectangle(20, 435, 25, 25));
+            coins.Add(new Rectangle(265, 350, 25, 25));
+            coins.Add(new Rectangle(240, 120, 25, 25));
 
             UpdateRects();
 
@@ -113,8 +123,14 @@ namespace _12_Final_Summative
             // TODO: use this.Content to load your game content here
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
+            coinTexture = Content.Load<Texture2D>("Images/coin");
 
-            loseTexture = Content.Load<Texture2D>("Images/you_lose");
+            loseTexture = Content.Load<Texture2D>("Images/burning_forest");
+            winTexture = Content.Load<Texture2D>("Images/win_forest");
+            bgTexture = Content.Load<Texture2D>("Images/forest");
+            exitTexture = Content.Load<Texture2D>("Images/door");
+
+            coinFont = Content.Load<SpriteFont>("Fonts/coinFont");
         }
 
         public void GeneratePlatforms()
@@ -225,7 +241,31 @@ namespace _12_Final_Summative
                     {
                         screen = Screen.Lose;
                     }
+
+                    //Exit
+                    if (playerCollisionRect.Contains(exitRect))
+                    {
+                        screen = Screen.Win;
+                    }
+
+                    //Coins
+                    for (int i = 0; i < coins.Count; i++)
+                    {
+                        if (playerCollisionRect.Intersects(coins[i]))
+                        {
+                            coins.RemoveAt(i);
+                            i--;
+                            coinsCollected += 1;
+                        }
+                    }
                 }
+            }
+
+            else if (screen == Screen.Win)
+            {
+                frame = 0;
+                directionRow = idleRightRow;
+                playerDrawRect = new Rectangle(330, 340, 70, 60);
             }
 
             base.Update(gameTime);
@@ -242,19 +282,34 @@ namespace _12_Final_Summative
 
             if (screen == Screen.Game)
             {
+                _spriteBatch.Draw(bgTexture, window, Color.White);
+                _spriteBatch.Draw(exitTexture, exitRect, Color.White);
+
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
+                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);
 
                 if (!enemyDead)
                     enemy.Draw(_spriteBatch);
+
+                foreach (Rectangle coin in coins)
+                    _spriteBatch.Draw(coinTexture, coin, Color.White);
+
+                _spriteBatch.DrawString(coinFont, $"= {coinsCollected}", new Vector2(55, 435), Color.White);
             }
 
             else if (screen == Screen.Lose)
             {
                 _spriteBatch.Draw(loseTexture, window, Color.White);
+            }
+
+            else if (screen == Screen.Win)
+            {
+                _spriteBatch.Draw(winTexture, window, Color.White);
+                _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
+                //_spriteBatch.Draw(playerSpriteSheet, new Rectangle (330, 340, 70, 60), Color.White);
             }
 
                 _spriteBatch.End();

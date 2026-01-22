@@ -18,6 +18,8 @@ namespace _12_Final_Summative
         private Vector2 _speed;
         private Rectangle _location;
         private Texture2D _texture;
+        //private int _rows, _columns, _frames, _frame, _directionRow, _runLeftRow, _runRightRow, _width, _height;
+        //private float _spriteSpeed, _time, _frameSpeed;
 
         public Enemy(Texture2D texture, Rectangle location)
         {
