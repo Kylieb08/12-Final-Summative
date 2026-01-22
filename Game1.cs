@@ -125,7 +125,7 @@ namespace _12_Final_Summative
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
             coinTexture = Content.Load<Texture2D>("Images/coin");
-            enemySpriteSheet = Content.Load<Texture2D>("Images/evil_sprite_sheet");
+            enemySpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
 
             loseTexture = Content.Load<Texture2D>("Images/burning_forest");
             winTexture = Content.Load<Texture2D>("Images/win_forest");
