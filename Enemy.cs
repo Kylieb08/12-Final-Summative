@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
@@ -21,6 +20,7 @@ namespace _12_Final_Summative
         private int _rows, _columns, _frames, _frame, _directionRow, 
             _runLeftRow, _runRightRow, _width, _height;
         private float _spriteSpeed, _time, _frameSpeed;
+        private bool _runLeft = true;
 
         public Enemy(Texture2D texture, Rectangle collisionRect)
         {
@@ -60,17 +60,26 @@ namespace _12_Final_Summative
 
             SetEnemyDirection();
             _enemyLocation += _enemyDirection * _spriteSpeed;
+            UpdateRects();
         }
 
         private void SetEnemyDirection()
         {
             _enemyDirection = Vector2.Zero;
-            _enemyDirection.X += 1;
-            if (_enemyDirection.X < 550 || _enemyDirection.X > 780)
-                _enemyDirection *= -1;
 
+            if (_runLeft)
+                _enemyDirection.X -= 1;
 
-           if (_enemyDirection != Vector2.Zero)
+            if (!_runLeft) 
+                _enemyDirection.X += 1;
+
+            if (_enemyLocation.X < 550)
+                _runLeft = false;
+
+            else if (_enemyLocation.X > 710)
+                _runLeft = true;
+
+            if (_enemyDirection != Vector2.Zero)
            {
                 _enemyDirection.Normalize();
                 if (_enemyDirection.X < 0)
@@ -85,6 +94,11 @@ namespace _12_Final_Summative
                 _frame = 0;
                 _directionRow = _runLeftRow;
             }
+        }
+        public void UpdateRects()
+        {
+            _collisionRect.Location = _enemyLocation.ToPoint();
+            _drawRect.Location = new Point(_collisionRect.X - 5, _collisionRect.Y - 17);
         }
 
         public bool Intersects(Rectangle enemy)
