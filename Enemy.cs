@@ -15,34 +15,67 @@ namespace _12_Final_Summative
 {
     internal class Enemy
     {
-        private Vector2 _speed;
-        private Rectangle _location;
+        private Vector2 _enemyLocation, _enemyDirection;
+        private Rectangle _collisionRect, _drawRect;
         private Texture2D _texture;
-        //private int _rows, _columns, _frames, _frame, _directionRow, _runLeftRow, _runRightRow, _width, _height;
-        //private float _spriteSpeed, _time, _frameSpeed;
+        private int _rows, _columns, _frames, _frame, _directionRow, 
+            _runLeftRow, _runRightRow, _width, _height;
+        private float _spriteSpeed, _time, _frameSpeed;
 
-        public Enemy(Texture2D texture, Rectangle location)
+        public Enemy(Texture2D texture, Rectangle collisionRect)
         {
-            _speed = Vector2.One;
-            _location = location;
+            //Processing the sprite sheet
+            _collisionRect = collisionRect;
             _texture = texture;
+            _rows = 8;
+            _columns = 6;
+            _runRightRow = 4;
+            _runLeftRow = 5;
+            _directionRow = _runLeftRow;
+
+            //Time
+            _time = 0.0f;
+            _frameSpeed = 0.08f;
+            _frames = 6;
+            _frame = 0;
+
+            //Enemy
+            _enemyLocation = new Vector2(710, 160);
+            _drawRect = new Rectangle(704, 160, 103, 86);
         }
 
-        public void Update(Rectangle window)
+        public void Update(Rectangle window, GameTime gameTime)
         {
-            _location.X -= (int)_speed.X;
-            if (_location.Left < 550 || _location.Right > 780)
-                _speed.X *= -1;
+            //_collisionRect.X -= (int)_speed.X;
+            //if (_collisionRect.Left < 550 || _collisionRect.Right > 780)
+            //    _speed.X *= -1;
+            _time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_time > _frameSpeed && _enemyDirection != Vector2.Zero)
+            {
+                _time = 0f;
+                _frame = (_frame + 1) % _frames;
+            }
+        }
+
+        private void SetEnemyDirection()
+        {
+            _enemyDirection = Vector2.Zero;
+            if (_enemyLocation.X > 550 && _enemyLocation.X < 780)
+                _enemyDirection.X -= 1;
+
+            //if (_enemyLocation.X > 550 && _enemyLocation.X < 780)
+            //    _enemyDirection.X += 1;
         }
 
         public bool Intersects(Rectangle enemy)
         {
-            return _location.Intersects(enemy);
+            return _collisionRect.Intersects(enemy);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _location, null, Color.Red, 0f, 
+            spriteBatch.Draw(_texture, _collisionRect, null, Color.Red, 0f, 
                 Vector2.Zero, SpriteEffects.None, 1f);
         }
     }

@@ -23,7 +23,8 @@ namespace _12_Final_Summative
         private SpriteBatch _spriteBatch;
 
         Screen screen;
-        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, bgTexture, exitTexture, coinTexture;
+        Texture2D playerSpriteSheet, rectangleTexture, loseTexture, winTexture, 
+            bgTexture, exitTexture, coinTexture, enemySpriteSheet;
         KeyboardState keyboardState;
         MouseState mouseState;
         Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
@@ -70,7 +71,7 @@ namespace _12_Final_Summative
             attackLeftRow = 0;
             attackRightRow = 1;
             idleRightRow = 2;
-            idleLeftRow = 3;
+            //idleLeftRow = 3;
             runRightRow = 4;
             runLeftRow = 5;
             //jumpRightRow = 6;
@@ -113,7 +114,7 @@ namespace _12_Final_Summative
             GeneratePlatforms();
 
             platform = new Platforms(rectangleTexture, platformRect, platformColor);
-            enemy = new Enemy(rectangleTexture, enemyRect);
+            enemy = new Enemy(enemySpriteSheet, enemyRect);
         }
 
         protected override void LoadContent()
@@ -124,6 +125,7 @@ namespace _12_Final_Summative
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             playerSpriteSheet = Content.Load<Texture2D>("Images/sprite_sheet");
             coinTexture = Content.Load<Texture2D>("Images/coin");
+            enemySpriteSheet = Content.Load<Texture2D>("Images/evil_sprite_sheet");
 
             loseTexture = Content.Load<Texture2D>("Images/burning_forest");
             winTexture = Content.Load<Texture2D>("Images/win_forest");
@@ -157,7 +159,7 @@ namespace _12_Final_Summative
 
             if (screen == Screen.Game)
             {
-                enemy.Update(window);
+                enemy.Update(window, gameTime);
 
                 time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
