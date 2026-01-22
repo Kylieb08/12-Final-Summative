@@ -43,6 +43,10 @@ namespace _12_Final_Summative
             _enemyLocation = new Vector2(710, 160);
             _drawRect = new Rectangle(704, 160, 103, 86);
             _spriteSpeed = 1.5f;
+
+            //Width and Height
+            _width = _texture.Width / _columns;
+            _height = _texture.Height / _rows;
         }
 
         public void Update(Rectangle window, GameTime gameTime)
@@ -108,8 +112,8 @@ namespace _12_Final_Summative
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _collisionRect, null, Color.Red, 0f, 
-                Vector2.Zero, SpriteEffects.None, 1f);
+            spriteBatch.Draw(_texture, _drawRect,
+                new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.Red);
         }
     }
 }
