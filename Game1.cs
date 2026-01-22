@@ -27,7 +27,7 @@ namespace _12_Final_Summative
             bgTexture, exitTexture, coinTexture, enemySpriteSheet;
         KeyboardState keyboardState;
         MouseState mouseState;
-        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect;
+        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect, infoRect;
         List<Rectangle> coins;
 
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
@@ -41,7 +41,7 @@ namespace _12_Final_Summative
 
         Platforms platform;
         Enemy enemy;
-        SpriteFont coinFont;
+        SpriteFont coinFont, titleFont;
 
         public Game1()
         {
@@ -58,8 +58,9 @@ namespace _12_Final_Summative
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
 
-            screen = Screen.Game;
+            screen = Screen.Title;
 
+            infoRect = new Rectangle(20, 430, 70, 50);
             exitRect = new Rectangle(710, 160, 60, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
@@ -133,6 +134,7 @@ namespace _12_Final_Summative
             exitTexture = Content.Load<Texture2D>("Images/door");
 
             coinFont = Content.Load<SpriteFont>("Fonts/coinFont");
+            titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
         }
 
         public void GeneratePlatforms()
@@ -157,7 +159,13 @@ namespace _12_Final_Summative
 
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
 
-            if (screen == Screen.Game)
+            if (screen == Screen.Title)
+            {
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                    screen = Screen.Game;
+            }
+
+            else if (screen == Screen.Game)
             {
                 enemy.Update(window, gameTime);
 
@@ -288,7 +296,7 @@ namespace _12_Final_Summative
                 _spriteBatch.Draw(exitTexture, exitRect, Color.White);
 
                 _spriteBatch.Draw(playerSpriteSheet, playerDrawRect, new Rectangle(frame * width, directionRow * height, width, height), Color.White);
-                _spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
+                //_spriteBatch.Draw(rectangleTexture, playerCollisionRect, Color.Black * 0.3f); //Draws hitbox
 
                 foreach (Platforms platform in platforms)
                     platform.Draw(_spriteBatch);

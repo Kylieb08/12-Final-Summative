@@ -23,6 +23,13 @@
 #begin Fonts/futura.ttf
 /copy:Fonts/futura.ttf
 
+#begin Fonts/titleFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/titleFont.spritefont
+
 #begin Images/burning_forest.png
 /importer:TextureImporter
 /processor:TextureProcessor
