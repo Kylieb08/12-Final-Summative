@@ -60,7 +60,7 @@ namespace _12_Final_Summative
 
             screen = Screen.Title;
 
-            infoRect = new Rectangle(20, 430, 70, 50);
+            infoRect = new Rectangle(5, 445, 200, 50);
             exitRect = new Rectangle(710, 160, 60, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
@@ -163,6 +163,18 @@ namespace _12_Final_Summative
             {
                 if (keyboardState.IsKeyDown(Keys.Enter))
                     screen = Screen.Game;
+
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (infoRect.Contains(mouseState.Position))
+                        screen = Screen.Info;
+                }
+            }
+
+            else if (screen == Screen.Info)
+            {
+                if (keyboardState.IsKeyDown((Keys)Keys.R))
+                    screen = Screen.Title;
             }
 
             else if (screen == Screen.Game)
@@ -290,7 +302,21 @@ namespace _12_Final_Summative
 
             _spriteBatch.Begin();
 
-            if (screen == Screen.Game)
+            if (screen == Screen.Title)
+            {
+                _spriteBatch.Draw(bgTexture, window, Color.White);
+                _spriteBatch.DrawString(titleFont, "SAVE THE FOREST", new Vector2(40, 20), Color.White);
+                _spriteBatch.DrawString(coinFont, "Get To The End To Stop The Forest From Burning Down", new Vector2(70, 100), Color.White);
+                _spriteBatch.Draw(rectangleTexture, infoRect, Color.SpringGreen * 0.6f);
+                _spriteBatch.DrawString(coinFont, "HOW TO PLAY", new Vector2(20, 460), Color.White);
+            }
+
+            else if (screen == Screen.Info)
+            {
+                _spriteBatch.Draw(bgTexture, window, Color.White);
+            }
+
+            else if (screen == Screen.Game)
             {
                 _spriteBatch.Draw(bgTexture, window, Color.White);
                 _spriteBatch.Draw(exitTexture, exitRect, Color.White);
