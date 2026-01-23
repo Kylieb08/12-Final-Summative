@@ -27,7 +27,8 @@ namespace _12_Final_Summative
             bgTexture, exitTexture, coinTexture, enemySpriteSheet;
         KeyboardState keyboardState;
         MouseState mouseState;
-        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, enemyRect, exitRect, infoRect;
+        Rectangle window, playerCollisionRect, playerDrawRect, platformRect, 
+            enemyRect, exitRect, infoRect, legibilityRect;
         List<Rectangle> coins;
 
         int rows, columns, frame, frames, directionRow, runLeftRow, runRightRow, 
@@ -61,6 +62,7 @@ namespace _12_Final_Summative
             screen = Screen.Title;
 
             infoRect = new Rectangle(5, 445, 200, 50);
+            legibilityRect = new Rectangle(10, 10, 450, 258);
             exitRect = new Rectangle(710, 160, 60, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
@@ -307,6 +309,7 @@ namespace _12_Final_Summative
                 _spriteBatch.Draw(bgTexture, window, Color.White);
                 _spriteBatch.DrawString(titleFont, "SAVE THE FOREST", new Vector2(40, 20), Color.White);
                 _spriteBatch.DrawString(coinFont, "Get To The End To Stop The Forest From Burning Down", new Vector2(70, 100), Color.White);
+                _spriteBatch.DrawString(coinFont, "Press Enter to Play", new Vector2(280, 137), Color.White);
                 _spriteBatch.Draw(rectangleTexture, infoRect, Color.SpringGreen * 0.6f);
                 _spriteBatch.DrawString(coinFont, "HOW TO PLAY", new Vector2(20, 460), Color.White);
             }
@@ -314,6 +317,14 @@ namespace _12_Final_Summative
             else if (screen == Screen.Info)
             {
                 _spriteBatch.Draw(bgTexture, window, Color.White);
+                _spriteBatch.Draw(rectangleTexture, legibilityRect, Color.Black * 0.5f);
+                _spriteBatch.DrawString(coinFont, "HOW TO PLAY", new Vector2(20, 20), Color.White);
+                _spriteBatch.DrawString(coinFont, "Use a and d or the left and", new Vector2(20, 57), Color.White);
+                _spriteBatch.DrawString(coinFont, "right arrow keys to move", new Vector2(20, 94), Color.White);
+                _spriteBatch.DrawString(coinFont, "Press space to jump", new Vector2(20, 131), Color.White);
+                _spriteBatch.DrawString(coinFont, "Use the left control button to attack", new Vector2(20, 168), Color.White);
+                _spriteBatch.DrawString(coinFont, "Running into the enemy will kill you", new Vector2(20, 205), Color.White);
+                _spriteBatch.DrawString(coinFont, "Press R to return to title", new Vector2(20, 242), Color.White);
             }
 
             else if (screen == Screen.Game)
