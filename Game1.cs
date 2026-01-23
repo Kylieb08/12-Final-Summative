@@ -67,7 +67,7 @@ namespace _12_Final_Summative
             screen = Screen.Title;
 
             infoRect = new Rectangle(5, 445, 200, 50);
-            legibilityRect = new Rectangle(10, 10, 450, 258);
+            legibilityRect = new Rectangle(10, 10, 450, 295);
             exitRect = new Rectangle(710, 160, 60, 60);
             platformRect = new Rectangle(0, 400, 800, 15);
             platformColor = Color.Black;
@@ -173,6 +173,7 @@ namespace _12_Final_Summative
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
 
             MediaPlayer.Play(bgMusic);
+            MediaPlayer.IsRepeating = true;
 
             if (screen == Screen.Title)
             {
@@ -307,6 +308,11 @@ namespace _12_Final_Summative
                 playerDrawRect = new Rectangle(330, 340, 70, 60);
             }
 
+            else if (screen == Screen.Lose)
+            {
+                MediaPlayer.Stop();
+            }
+
             base.Update(gameTime);
             
         }
@@ -338,8 +344,9 @@ namespace _12_Final_Summative
                 _spriteBatch.DrawString(coinFont, "right arrow keys to move", new Vector2(20, 94), Color.White);
                 _spriteBatch.DrawString(coinFont, "Press space to jump", new Vector2(20, 131), Color.White);
                 _spriteBatch.DrawString(coinFont, "Use the left control button to attack", new Vector2(20, 168), Color.White);
-                _spriteBatch.DrawString(coinFont, "Running into the enemy will kill you", new Vector2(20, 205), Color.White);
-                _spriteBatch.DrawString(coinFont, "Press R to return to title", new Vector2(20, 242), Color.White);
+                _spriteBatch.DrawString(coinFont, "You can only attack while running", new Vector2(20, 205), Color.White);
+                _spriteBatch.DrawString(coinFont, "Running into the enemy will kill you", new Vector2(20, 242), Color.White);
+                _spriteBatch.DrawString(coinFont, "Press R to return to title", new Vector2(20, 279), Color.White);
             }
 
             else if (screen == Screen.Game)
