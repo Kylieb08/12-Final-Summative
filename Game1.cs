@@ -46,7 +46,8 @@ namespace _12_Final_Summative
         Enemy enemy;
         SpriteFont coinFont, titleFont;
         Song bgMusic;
-        SoundEffect jump;
+        SoundEffect jumpSound, coinCollectSound, attackSound;
+        SoundEffectInstance attackSoundInstance;
 
         public Game1()
         {
@@ -143,7 +144,10 @@ namespace _12_Final_Summative
             titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
 
             bgMusic = Content.Load<Song>("Sound/platformer_music");
-            jump = Content.Load<SoundEffect>("Sound/jump");
+            jumpSound = Content.Load<SoundEffect>("Sound/jump");
+            coinCollectSound = Content.Load<SoundEffect>("Sound/coin_collect");
+            attackSound = Content.Load<SoundEffect>("Sound/axe");
+            attackSoundInstance = attackSound.CreateInstance();
         }
 
         public void GeneratePlatforms()
@@ -235,7 +239,7 @@ namespace _12_Final_Summative
                 {
                     fallSpeed.Y -= jumpSpeed;
                     onGround = false;
-                    jump.Play();
+                    jumpSound.Play();
                 }
 
                 else
@@ -290,6 +294,7 @@ namespace _12_Final_Summative
                             coins.RemoveAt(i);
                             i--;
                             coinsCollected += 1;
+                            coinCollectSound.Play();
                         }
                     }
                 }
@@ -379,11 +384,17 @@ namespace _12_Final_Summative
             playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 17);
 
             if (playerDirection.X > 0 && keyboardState.IsKeyDown(Keys.LeftControl))
+            {
                 playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 5);
+                attackSoundInstance.Play();
+            }
+                
 
             if (playerDirection.X < 0 && keyboardState.IsKeyDown(Keys.LeftControl))
+            {
                 playerDrawRect.Location = new Point(playerCollisionRect.X - 5, playerCollisionRect.Y - 5);
-
+                attackSoundInstance.Play();
+            }
         }
 
         private void SetPlayerDirection()

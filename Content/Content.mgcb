@@ -114,6 +114,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/win_forest.png
 
+#begin Sound/axe.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/axe.mp3
+
+#begin Sound/coin_collect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/coin_collect.mp3
+
 #begin Sound/jump.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
