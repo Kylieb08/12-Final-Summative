@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Win32.SafeHandles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 //sprite sheet is 850 x 1148 pixels
 
@@ -43,6 +45,8 @@ namespace _12_Final_Summative
         Platforms platform;
         Enemy enemy;
         SpriteFont coinFont, titleFont;
+        Song bgMusic;
+        SoundEffect jump;
 
         public Game1()
         {
@@ -137,6 +141,9 @@ namespace _12_Final_Summative
 
             coinFont = Content.Load<SpriteFont>("Fonts/coinFont");
             titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
+
+            bgMusic = Content.Load<Song>("Sound/platformer_music");
+            jump = Content.Load<SoundEffect>("Sound/jump");
         }
 
         public void GeneratePlatforms()
@@ -160,6 +167,8 @@ namespace _12_Final_Summative
             mouseState = Mouse.GetState();
 
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
+
+            MediaPlayer.Play(bgMusic);
 
             if (screen == Screen.Title)
             {
@@ -226,6 +235,7 @@ namespace _12_Final_Summative
                 {
                     fallSpeed.Y -= jumpSpeed;
                     onGround = false;
+                    jump.Play();
                 }
 
                 else
